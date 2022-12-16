@@ -1,17 +1,29 @@
 package ru.hogwarts.school.model;
 
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
 public class Faculty {
-
-    private  Student name;
+    @javax.persistence.Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+    @ManyToOne
+    private Student name;
+
     private String color;
 
     public Faculty(Student name, Long id, String color) {
         this.name = name;
         this.id = id;
         this.color = color;
+    }
+
+    public Faculty() {
+
     }
 
     public Student getName() {
