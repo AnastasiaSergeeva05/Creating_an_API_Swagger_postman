@@ -1,33 +1,24 @@
 package ru.hogwarts.school.model;
 
-import nonapi.io.github.classgraph.json.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.util.Objects;
+import javax.persistence.Id;
+
 
 @Entity
 public class Student {
-
-
-
-    @javax.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
     private String name;
-
     private int age;
 
-
-    public Student(String name, Long id, int age) {
-        this.name = name;
-        this.id = id;
-        this.age = age;
-    }
-
+@ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "faculty id", nullable = false)
+@JsonBackReference
+private Faculty faculty;
     public Student() {
 
     }
@@ -54,6 +45,15 @@ public class Student {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 
     @Override

@@ -8,13 +8,13 @@ import ru.hogwarts.school.repository.FacultyRepository;
 import java.util.Collection;
 
 @Service
-
-
 public class FacultyService {
     private final FacultyRepository facultyRepository;
+
     public FacultyService(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
     }
+
     public Collection<Faculty> gerAll() {
         return this.facultyRepository.findAll();
     }
@@ -36,4 +36,8 @@ public class FacultyService {
         return dbFaculty;
     }
 
+    public Faculty finByNameOrColor(String nameOrColor) {
+        return facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(nameOrColor, nameOrColor).orElseThrow(ObjectNotFoundException::new);
+
+    }
 }

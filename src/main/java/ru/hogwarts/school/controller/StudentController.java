@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
+
 import java.util.Collection;
 
 @RestController
@@ -20,34 +21,40 @@ public class StudentController {
     }
 
     @GetMapping
-    @Operation(summary = "Return all Students",tags = "student")
+    @Operation(summary = "Return all Students", tags = "student")
     public Collection<Student> getAll() {
         return this.studentService.getAll();
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Return by id Student",tags = "student")
+    @Operation(summary = "Return by id Student", tags = "student")
     public Student getByid(@PathVariable("id") long id) {
         return this.studentService.getStudent(id);
     }
 
-    @GetMapping("/age/{id}")
-    public Collection<Student>getStudentByAge(@PathVariable("id") int age){
+    @GetMapping("/age/{age}")
+    public Collection<Student> getStudentByAge(@PathVariable("id") int age) {
         return this.studentService.getByAge(age);
+    }
+
+
+    @GetMapping("/age/between")
+    public Collection<Student> findStudentByAge(@RequestParam("minAge") int minAge, @RequestParam("maxAge")int maxAge){
+        return this.studentService.findStudentByAge(minAge,maxAge);
     }
 
     @PostMapping
     public Student createStudent(@RequestBody Student student) {
-       return this.studentService.addStudent(student);
+        return this.studentService.addStudent(student);
     }
 
     @PutMapping("/{id}")
-    public Student updateStudent(@PathVariable long id,@RequestBody Student student){
-        return this.studentService.editStudent(id,student);
+    public Student updateStudent(@PathVariable long id, @RequestBody Student student) {
+        return this.studentService.editStudent(id, student);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteStudent(@PathVariable("id") long id){
+    public ResponseEntity deleteStudent(@PathVariable("id") long id) {
         studentService.removeStudent(id);
         return ResponseEntity.ok().build();
     }
