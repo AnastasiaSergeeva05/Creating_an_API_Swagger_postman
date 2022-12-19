@@ -9,7 +9,7 @@ import java.util.Collection;
 
 @Service
 public class StudentService {
-private final StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
@@ -21,7 +21,7 @@ private final StudentRepository studentRepository;
 
     public Student editStudent(Long id, Student student) {
         Student dbStudent =
- this.studentRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+                this.studentRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
         dbStudent.setName(student.getName());
         dbStudent.setAge(student.getAge());
         return this.studentRepository.save(dbStudent);
@@ -34,19 +34,19 @@ private final StudentRepository studentRepository;
     }
 
     public Student getStudent(long id) {
-      return studentRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        return studentRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
     }
 
-    public void removeStudent(long id){
-         studentRepository.deleteById(id);
-        }
+    public void removeStudent(long id) {
+        studentRepository.deleteById(id);
+    }
 
     public Collection<Student> getByAge(int age) {
-        return studentRepository.finByAge(age);
+        return studentRepository.findByAge(age);
 
     }
 
     public Collection<Student> findStudentByAge(int minAge, int maxAge) {
-        return this.studentRepository.findByAgeBetween(minAge,maxAge);
+        return this.studentRepository.findByAgeBetween(minAge, maxAge);
     }
 }
