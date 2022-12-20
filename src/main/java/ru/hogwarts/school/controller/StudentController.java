@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
@@ -19,11 +20,13 @@ public class StudentController {
     }
 
     @GetMapping
+    @Operation(summary = "Return all Students",tags = "student")
     public Collection<Student> getAll() {
         return this.studentService.getAll();
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Return by id Student",tags = "student")
     public Student getByid(@PathVariable("id") long id) {
         return this.studentService.getStudent(id);
     }
@@ -44,8 +47,8 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void>deleteStudent(@PathVariable("id") long id){
-        this.studentService.removeStudent(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity deleteStudent(@PathVariable("id") long id){
+        studentService.removeStudent(id);
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,17 +1,35 @@
 package ru.hogwarts.school.model;
 
+import nonapi.io.github.classgraph.json.Id;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.util.Objects;
 
+@Entity
 public class Student {
 
-    private String name;
+
+
+    @javax.persistence.Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+    private String name;
+
     private int age;
+
 
     public Student(String name, Long id, int age) {
         this.name = name;
         this.id = id;
         this.age = age;
+    }
+
+    public Student() {
+
     }
 
     public String getName() {
