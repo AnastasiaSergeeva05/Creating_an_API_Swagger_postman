@@ -22,7 +22,7 @@ public class FacultyController {
     @GetMapping
     @Operation(summary = "Returns all faculty", tags = "faculty")
     public Collection<Faculty> getAllFacyltys() {
-        return this.facultyService.gerAll();
+        return this.facultyService.getAll();
     }
 
     @GetMapping("/search/{searchString}")
