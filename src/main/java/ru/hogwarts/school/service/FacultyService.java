@@ -15,7 +15,7 @@ public class FacultyService {
         this.facultyRepository = facultyRepository;
     }
 
-    public Collection<Faculty> gerAll() {
+    public Collection<Faculty> getAll() {
         return this.facultyRepository.findAll();
     }
 
