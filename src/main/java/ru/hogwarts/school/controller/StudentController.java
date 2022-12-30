@@ -22,7 +22,7 @@ public class StudentController {
     }
 
     @GetMapping
-    @Operation(summary = "Return all Students", tags = "student")
+    @Operation(summary = "Return all Students", tags = "Student")
     public Collection<Student> getAll() {
         return this.studentService.getAll();
     }

@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +33,7 @@ public class AvatarService {
     private final StudentService studentService;
     private final StudentRepository studentRepository;
     private final AvatarRepository avatarRepository;
+    private static final Logger LOG = LoggerFactory.getLogger(AvatarService.class);
 
     public AvatarService(StudentService studentService, StudentRepository studentRepository, AvatarRepository avatarRepository) {
         this.studentService = studentService;
@@ -82,10 +85,12 @@ public class AvatarService {
     }
 
     public Avatar findAvatar(Long studentId) {
+        LOG.info("Method was called findAvatar");
         return avatarRepository.findByStudentId(studentId).orElse(new Avatar());
     }
 
     public List<Avatar> getAllAvatars(Integer pageNumber, Integer pageSize) {
+        LOG.info("Method was called all avatars");
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll(pageRequest).getContent();
     }
