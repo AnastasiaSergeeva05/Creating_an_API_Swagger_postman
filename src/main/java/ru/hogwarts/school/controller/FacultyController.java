@@ -1,6 +1,7 @@
 package ru.hogwarts.school.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.FacultyService;
@@ -26,8 +27,15 @@ public class FacultyController {
     }
 
     @GetMapping("/search/{searchString}")
-    public Faculty findFacultyByNameorColor(@PathVariable("searchString") String searchString){
+    public Faculty findFacultyByNameorColor(@PathVariable("searchString") String searchString) {
         return this.facultyService.finByNameOrColor(searchString);
+    }
+
+    @GetMapping("/longestFacultyName")
+    @Operation(summary = "Faculty longest name", tags = "faculty")
+    public ResponseEntity<String> getLongestFacultyName() {
+        return ResponseEntity.ok(facultyService.getLongestFacultyName());
+
     }
 
     @PostMapping
