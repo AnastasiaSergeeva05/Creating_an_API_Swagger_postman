@@ -1,6 +1,5 @@
 package ru.hogwarts.school.service;
 
-import org.apache.juli.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -10,6 +9,7 @@ import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -18,6 +18,17 @@ public class StudentService {
 
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
+    }
+
+    public List<String> getAllstudentStartWitchLetter(String letter) {
+        LOG.info("Method was called getAllstudentStartWitchLetter ");
+        return studentRepository.findAll()
+                .parallelStream()
+                .filter(student -> student.getName().startsWith(letter.toUpperCase()))
+                .map(student -> student.getName().toUpperCase())
+                .collect(Collectors.toList());
+
+
     }
 
     public Student addStudent(Student student) {
@@ -76,5 +87,14 @@ public class StudentService {
     public List<Student> getStudentById() {
         LOG.info("Method was called getStudentById");
         return studentRepository.findStudentById();
+    }
+
+    public double getAverageAgeOfAllStudents() {
+        LOG.info("Method was called getAverageAgeOfAllStudents");
+        return studentRepository.findAll()
+                .stream()
+                .mapToInt(Student::getAge)
+                .average()
+                .orElse(0);
     }
 }

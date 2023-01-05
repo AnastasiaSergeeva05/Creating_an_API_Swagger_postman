@@ -8,12 +8,26 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.Collection;
+import java.util.Comparator;
 
 @Service
 public class FacultyService {
     private final FacultyRepository facultyRepository;
 
     private static final Logger LOG = LoggerFactory.getLogger(FacultyService.class);
+
+
+    public String getLongestFacultyName() {
+        LOG.info("Method was called getLongestFacultyName");
+        return facultyRepository.findAll()
+                .stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparing(String::length))
+                .orElse(null);
+
+    }
+
+
 
     public FacultyService(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
@@ -31,7 +45,9 @@ public class FacultyService {
 
     public Faculty update(Long id, Faculty faculty) {
         LOG.info("Method was called update");
-        Faculty dbFaculty = this.facultyRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        Faculty dbFaculty = this.facultyRepository
+                .findById(id)
+                .orElseThrow(ObjectNotFoundException::new);
         dbFaculty.setName(faculty.getName());
         dbFaculty.setColor(faculty.getColor());
         return this.facultyRepository.save(dbFaculty);
@@ -39,7 +55,9 @@ public class FacultyService {
 
     public Faculty remove(long id) {
         LOG.info("Method was called remove");
-        Faculty dbFaculty = this.facultyRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        Faculty dbFaculty = this.facultyRepository
+                .findById(id)
+                .orElseThrow(ObjectNotFoundException::new);
         this.facultyRepository.delete(dbFaculty);
         return dbFaculty;
     }
