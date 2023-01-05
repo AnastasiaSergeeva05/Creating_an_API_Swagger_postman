@@ -18,6 +18,7 @@ public class StudentService {
 
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
+
     }
 
     public List<String> getAllstudentStartWitchLetter(String letter) {
@@ -96,5 +97,47 @@ public class StudentService {
                 .mapToInt(Student::getAge)
                 .average()
                 .orElse(0);
+    }
+
+    public void printStudentSinhronaized(Student student, Student student2) {
+        System.out.println(student.getName());
+        System.out.println(student2.getName());
+    }
+
+    public synchronized void printAllStudentSinhronaizedMethod() {
+        List<Student> students = studentRepository.findAll();
+        printStudentSinhronaized(students.get(1), students.get(2));
+
+        new Thread(() -> {
+            printStudentSinhronaized(students.get(3), students.get(4));
+        }).start();
+
+        new Thread(() -> {
+            printStudentSinhronaized(students.get(5), students.get(6));
+        }).start();
+
+    }
+
+    public void printAllStudentParalelMethod() {
+
+        List<Student> students = studentRepository.findAll();
+        printStudentParallel(students.get(0));
+        printStudentParallel(students.get(1));
+
+        new Thread(() -> {
+            printStudentParallel(students.get(3));
+            printStudentParallel(students.get(4));
+        }).start();
+
+        new Thread(() -> {
+            printStudentParallel(students.get(5));
+            printStudentParallel(students.get(6));
+        }).start();
+
+    }
+
+    public void printStudentParallel(Student student) {
+        System.out.println(student.getName());
+   
     }
 }
