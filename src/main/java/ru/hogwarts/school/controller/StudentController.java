@@ -71,9 +71,27 @@ public class StudentController {
 
     @GetMapping("/studentAverAgeAgeOfAllstudents")
     @Operation(summary = "Get all student Average", tags = "student")
-    public ResponseEntity<Double>getAverageAgeOfAllStudents(){
+    public ResponseEntity<Double> getAverageAgeOfAllStudents() {
         return ResponseEntity.ok(studentService.getAverageAgeOfAllStudents());
     }
+
+    @GetMapping("/returnInteger")
+    @Operation(summary = "return Integer", tags = "student")
+    Integer returnInteger() {
+        return Stream.iterate(1, a -> a + 1).limit(1000000)
+                .parallel().reduce(0, (a, b) -> a + b);
+    }
+
+    @GetMapping("/printAllStudentSinhronaized")
+    public void printAllStudentSinhronaizedMethod(){
+        studentService.printAllStudentSinhronaizedMethod();
+    }
+
+    @GetMapping("/printAllStudentParallel")
+    public void printAllStudentParallelMethod(){
+        studentService.printAllStudentParalelMethod();
+    }
+
 
     @PostMapping
     @Operation(summary = "Create Student", tags = "student")
@@ -81,13 +99,6 @@ public class StudentController {
         return this.studentService.addStudent(student);
     }
 
-
-    @GetMapping("/returnInteger")
-    @Operation(summary = "return Integer", tags = "student")
-    Integer returnInteger() {
-        return Stream.iterate(1, a -> a + 1).limit(1_000_000)
-                .parallel().reduce(0, (a, b) -> a + b);
-    }
 
     @PutMapping("/{id}")
     public Student updateStudent(@PathVariable long id, @RequestBody Student student) {
